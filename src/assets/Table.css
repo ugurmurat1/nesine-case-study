@@ -1,0 +1,24 @@
+.centered-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-custom-height.first {
+  height: 40px;
+}
+.table-custom-height.second {
+  height: 59px;
+  border-bottom: 1px solid;
+}
+.table-custom-height.second td {
+  cursor: pointer;
+}
+.text-start {
+  width: 400px;
+}
+.custom-table {
+  font-size: 13px;
+}
+.clicked {
+  background-color: #ffff00 !important;
+}

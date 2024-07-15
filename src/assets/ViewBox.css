@@ -1,0 +1,22 @@
+.view {
+  position: absolute;
+  z-index: 99;
+  right: 20px;
+  bottom: 20px;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  min-width: 400px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+.view > div {
+  padding: 5px;
+}
+.view > div.items {
+  border-bottom: 1px solid #000000;
+}
+
+.view > div.items > strong {
+  padding-left: 10px;
+}

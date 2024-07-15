@@ -1,0 +1,18 @@
+.navbar {
+  padding-left: 10px !important
+}
+.auto-sizer-container {
+  height: calc(100vh - 60px);
+  width: 100%;
+}
+.auto-sizer-container.scroll {
+  overflow-y: auto
+}
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
