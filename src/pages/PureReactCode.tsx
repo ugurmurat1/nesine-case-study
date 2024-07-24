@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, useCallback, useMemo } from 'react';
 import { AppContext } from '../context/AppContext';
 import Table from '../components/Table';
 import ViewBox from '../components/ViewBox';
@@ -9,6 +9,7 @@ const PureReactCode: React.FC = () => {
   const [loadedData, setLoadedData] = useState<any[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
+  const debounceTimeout = useRef<number>(0)
 
   const rowHeight = 100;
   const buffer = 5;
@@ -23,30 +24,38 @@ const PureReactCode: React.FC = () => {
   }, [fetchData, resetState]);
 
   useEffect(() => {
-    if (state.data && Array.isArray(state.data)) {
-      setLoadedData(state.data);
-    }
+    setLoadedData(state.data);
   }, [state.data]);
 
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    setScrollTop(e.currentTarget.scrollTop);
-  };
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const scrollTop = e.currentTarget.scrollTop
 
-  const getVisibleItems = () => {
+    if (debounceTimeout.current) {
+      clearInterval(debounceTimeout.current)
+    }
+
+    debounceTimeout.current = window.setInterval(() => {
+      setScrollTop(scrollTop);
+    }, 100)
+  }, []);
+
+  const visibleItems = useMemo(() => {
     if (!containerRef.current) return [];
+    
     const containerHeight = containerRef.current.clientHeight;
+
     const startIndex = Math.max(0, Math.floor(scrollTop / rowHeight) - buffer);
+
     const endIndex = Math.min(
       loadedData.length,
       Math.ceil((scrollTop + containerHeight) / rowHeight) + buffer
     );
+
     return loadedData.slice(startIndex, endIndex).map((item, index) => ({
       item,
       index: startIndex + index,
     }));
-  };
-
-  const visibleItems = getVisibleItems();
+  }, [scrollTop, rowHeight, buffer, loadedData]);
 
   return (
     <>

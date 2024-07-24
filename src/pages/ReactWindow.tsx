@@ -19,9 +19,7 @@ const ReactWindow: React.FC = () => {
   }, [fetchData, resetState]);
 
   useEffect(() => {
-    if (state.data && Array.isArray(state.data)) {
-      setLoadedData(state.data);
-    }
+    setLoadedData(state.data);
   }, [state.data]);
 
   const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
